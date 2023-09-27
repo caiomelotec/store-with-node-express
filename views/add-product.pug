@@ -1,23 +1,13 @@
-doctype html
-html(lang="en")
-  head
-    meta(charset="UTF-8")
-    meta(name="viewport", content="width=device-width, initial-scale=1.0")
-    title #{docTitle}
-    link(rel="stylesheet", href="/css/main.css")
-    link(rel="stylesheet", href="/css/add-product.css")
-  body 
-        header.header-navbar
-          nav
-            ul
-              li
-                a(href="/") Home SHOP
-              li
-                a(href="/admin/add-product") Add Product
-        
-        main
-          .div-form-title-input
-            form(action="/admin/add-product", method="POST")
-              label(for="title").label-input-title Title:
-              input(type="text", name="title").product-input
-              button(type="submit").add-product-btn  Add Product  
+extends layouts/main-layout.pug
+block styles
+          link(rel="stylesheet", href="/css/main.css")
+          link(rel="stylesheet", href="/css/add-product.css")
+
+
+block content 
+            main
+              .div-form-title-input
+                form(action="/admin/add-product", method="POST")
+                  label(for="title").label-input-title Title:
+                  input(type="text", name="title").product-input
+                  button(type="submit").add-product-btn  Add Product  
