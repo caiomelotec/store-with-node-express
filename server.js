@@ -2,11 +2,18 @@ const express = require("express");
 const path = require("path");
 const adminData = require("./routes/admin");
 const shopRouter = require("./routes/shop");
-
 const bodyParser = require("body-parser");
 const app = express();
-app.set("view engine", "pug");
+//  handlebars
+const expressHbs = require("express-handlebars");
+app.engine("hbs", expressHbs());
+
+app.set("view engine", "hbs");
 app.set("views", "views");
+// PUG
+// app.set("view engine", "pug");
+// app.set("views", "views");
+
 const port = 3000;
 
 // parse application/x-www-form-urlencoded
