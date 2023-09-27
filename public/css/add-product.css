@@ -1,0 +1,33 @@
+.product-input {
+  padding: 8px;
+  border-radius: 12px;
+  display: block;
+  width: 350px;
+  margin-top: 0.7rem;
+}
+.add-product-btn {
+  border: none;
+  background-color: black;
+  color: white;
+  padding: 12px 20px;
+  cursor: pointer;
+  border-radius: 12px;
+  transition: 0.2s;
+  margin: 0.7em 0;
+}
+.add-product-btn:hover {
+  background-color: rgb(28, 28, 28);
+  transform: scale(1.1);
+}
+.label-input-title {
+  color: white;
+  font-size: 1.4rem;
+}
+form {
+  margin: 2rem 0;
+}
+
+.div-form-title-input {
+  display: flex;
+  justify-content: center;
+}
