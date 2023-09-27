@@ -19,9 +19,7 @@ app.use(shopRouter); // home
 
 // error page
 app.use((req, res, next) => {
-  res
-    .status(404)
-    .sendFile(path.join(__dirname, "views", "page-not-found.html"));
+  res.status(404).render("page-not-found", { docTitle: "Page not Found" });
 });
 
 // listening
