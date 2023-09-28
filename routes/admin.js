@@ -9,6 +9,10 @@ router.get("/add-product", (req, res, next) => {
   res.render("add-product", {
     docTitle: "Home Shop",
     path: "/admin/add-product",
+    productCss: true,
+    addProductCss: true,
+    activeShop: false,
+    activeAddProduct: true,
   });
 });
 

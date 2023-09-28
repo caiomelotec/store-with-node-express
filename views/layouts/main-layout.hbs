@@ -1,0 +1,25 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{docTitle}}</title>
+    <link rel="stylesheet" href="/css/main.css" />
+    {{#if productCss}}
+      <link rel="stylesheet" href="/css/product.css" />
+    {{/if}}
+    {{#if addProductCss}}
+      <link rel="stylesheet" href="/css/add-product.css" />
+    {{/if}}
+  </head>
+  <body>
+    <header class="header-navbar">
+      <nav>
+        <ul>
+          <li><a href="/">Home SHOP</a></li>
+          <li><a class="{{#if activeAddProduct}}active-product{{/if}}" href="/admin/add-product">Add Product</a></li>
+        </ul>
+      </nav>
+    </header>
+    {{{body}}}
+  </body>
+</html>

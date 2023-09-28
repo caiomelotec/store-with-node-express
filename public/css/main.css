@@ -90,6 +90,8 @@ main h1 {
   background-color: rgb(28, 28, 28);
   transform: scale(1.1);
 }
+
+.active-product,
 .active {
   color: gray;
 }
