@@ -1,0 +1,36 @@
+<%- include('includes/head.ejs') %>
+
+  <%- include('includes/navigation.ejs') %>
+  <main>
+    <% if(prods.length > 0 ){ %>
+    <div class="grid">
+      <% prods.forEach((prod) => {%>
+      <article class="card">
+        <header class="card__header">
+          <h1 class="product__title"><%= prod.title %></h1>
+        </header>
+
+        <div class="card__image">
+          <img
+            src="https://m.media-amazon.com/images/I/51hSHN0NixL._AC_UY327_FMwebp_QL65_.jpg"
+            alt="A Book"
+          />
+          <div class="card__content">
+            <h2 class="product__price">$19.99</h2>
+            <p class="product__description">
+              A very interesting book about so many even more interesting
+              things!
+            </p>
+          </div>
+          <div class="card__actions">
+            <button class="btn">Add to Cart</button>
+          </div>
+        </div>
+      </article>
+      <% }) %>
+    </div>
+    <% } else { %>
+    <h1 style="color: white; margin: 2rem">Not Products Found 😪</h1>
+    <% } %>
+  </main>
+<%- include('includes/end.ejs') %>

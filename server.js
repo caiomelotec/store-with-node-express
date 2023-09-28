@@ -4,19 +4,23 @@ const adminData = require("./routes/admin");
 const shopRouter = require("./routes/shop");
 const bodyParser = require("body-parser");
 const app = express();
-//  handlebars
-const expressHbs = require("express-handlebars");
-app.engine(
-  "hbs",
-  expressHbs({
-    layoutsDir: "views/layouts",
-    defaultLayout: "main-layout",
-    extname: "hbs",
-  })
-);
 
-app.set("view engine", "hbs");
+// EJS
+app.set("view engine", "ejs");
 app.set("views", "views");
+//  handlebars
+// const expressHbs = require("express-handlebars");
+// app.engine(
+//   "hbs",
+//   expressHbs({
+//     layoutsDir: "views/layouts",
+//     defaultLayout: "main-layout",
+//     extname: "hbs",
+//   })
+// );
+
+// app.set("view engine", "hbs");
+// app.set("views", "views");
 // PUG
 // app.set("view engine", "pug");
 // app.set("views", "views");
