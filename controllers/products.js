@@ -18,14 +18,17 @@ exports.addAnewProducts = (req, res, next) => {
   res.redirect("/"); 
 }
 
-
-exports.getProducts = (req, res) => {
-  const products = Product.fetchAll()
-  res.render("shop", {
-    prods: products,
-    docTitle: "Home Shop",
-    path: "/",
-    productsCondition: products.length > 0,
-  });
-}
-
+exports.getProducts = async (req, res) => {
+  try {
+    const products = await Product.fetchAll();
+    res.render("shop", {
+      prods: products,
+      docTitle: "Home Shop",
+      path: "/",
+      productsCondition: products.length > 0,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("An error occurred while fetching products.");
+  }
+};

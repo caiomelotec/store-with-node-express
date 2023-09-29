@@ -1,15 +1,41 @@
-const products = []
+const fs = require('fs')
+const path = require('path')
 
-module.exports = class Product {
-  constructor(t, p) {
-    this.title = t
-    this.price = p
-  }
+
+ // Construct the path to the products.json file
+ const filePath = path.join(path.dirname(process.mainModule.filename), 'data', 'products.json');
+
+  module.exports = class Product {
+    constructor(title, price) {
+      this.title = title;
+    this.price = price;
+    }
 
   save() {
-    products.push(this)
+    fs.readFile(filePath, (err, fileContent) => {
+      let products = []
+      if(!err) {
+        products = JSON.parse(fileContent)
+      }
+      products.push(this)
+      //write the data to json
+      fs.writeFile(p, JSON.stringify(products), (err) => {
+        console.error(err);
+      })
+    })
   }
   static fetchAll() {
-    return products
+    return new Promise((resolve, reject) => {
+      // Read the file asynchronously
+      fs.readFile(filePath, (err, fileContent) => {
+        // If there's an error reading the file, reject the Promise with the error
+        if (err) {
+          reject(err);
+        } else {
+          // If successful, parse the JSON data and resolve the Promise with the parsed data
+          resolve(JSON.parse(fileContent));
+        }
+      });
+    });
   }
 }
