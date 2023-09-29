@@ -7,19 +7,23 @@ const path = require('path')
 
   module.exports = class Product {
     constructor(title, price) {
-      this.title = title;
+    this.title = title;
     this.price = price;
     }
 
   save() {
+    // Read the existing product data from the file
     fs.readFile(filePath, (err, fileContent) => {
       let products = []
+      // Check if there was no error while reading the file
       if(!err) {
+        // Parse the JSON content from the file into the 'products' array
         products = JSON.parse(fileContent)
       }
+      // Add the current product instance ('this') to the 'products' array
       products.push(this)
-      //write the data to json
-      fs.writeFile(p, JSON.stringify(products), (err) => {
+      // Write the updated 'products' array back to the file
+      fs.writeFile(filePath, JSON.stringify(products), (err) => {
         console.error(err);
       })
     })

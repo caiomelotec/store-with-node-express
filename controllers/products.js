@@ -20,7 +20,7 @@ exports.addAnewProducts = (req, res, next) => {
 
 exports.getProducts = async (req, res) => {
   try {
-    const products = await Product.fetchAll();
+    const products = await Product.fetchAll(); // fetches the list of products
     res.render("shop", {
       prods: products,
       docTitle: "Home Shop",
