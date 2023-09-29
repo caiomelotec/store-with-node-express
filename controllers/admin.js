@@ -1,13 +1,10 @@
 const Product = require("../models/product");
 
+
 exports.getAddProduct = (req, res, next) => {
   res.render("admin/add-product", {
     docTitle: "Home Shop",
     path: "/admin/add-product",
-    productCss: true,
-    addProductCss: true,
-    activeShop: false,
-    activeAddProduct: true,
   });
 };
 
@@ -21,11 +18,10 @@ exports.addAnewProducts = (req, res, next) => {
 exports.getProducts = async (req, res) => {
   try {
     const products = await Product.fetchAll(); // fetches the list of products
-    res.render("shop/product-list", {
+    res.render("admin/products", {
       prods: products,
-      docTitle: "Home Shop",
-      path: "/",
-      productsCondition: products.length > 0,
+      docTitle: "Admin Products",
+      path: "/admin/products",
     });
   } catch (error) {
     console.error(error);
