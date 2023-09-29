@@ -1,12 +1,11 @@
-<%- include('includes/head.ejs') %>
-<body>
-  <%- include('includes/navigation.ejs') %>
+<%- include('../includes/head.ejs') %>
+
+  <%- include('../includes/navigation.ejs') %>
   <main>
     <div class="div-form-title-input">
       <form action="/admin/add-product" method="POST">
         <label class="label-input-title" for="title">Title :</label>
         <input class="product-input" type="text" name="title" />
-
 
         <label class="label-input-title" for="price">Price :</label>
         <input class="product-input" type="text" name="price" />
@@ -14,4 +13,5 @@
       </form>
     </div>
   </main>
-</body>
+  <%- include('../includes/end.ejs') %>
+
