@@ -1,6 +1,5 @@
 const Product = require("../models/product");
 
-
 exports.getAddProduct = (req, res, next) => {
   res.render("admin/add-product", {
     docTitle: "Home Shop",
@@ -9,9 +8,8 @@ exports.getAddProduct = (req, res, next) => {
 };
 
 exports.addAnewProducts = (req, res, next) => {
-  const product = new Product(req.body.title, req.body.price);
+  const product = new Product(req.body.title, req.body.price, req.body.description);
   product.save();
-
   res.redirect("/");
 };
 

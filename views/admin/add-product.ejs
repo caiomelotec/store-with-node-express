@@ -5,11 +5,15 @@
     <div class="div-form-title-input">
       <form action="/admin/add-product" method="POST">
         <label class="label-input-title" for="title">Title :</label>
-        <input class="product-input" type="text" name="title" />
+        <input class="product-input" type="text" name="title" required/>
 
         <label class="label-input-title" for="price">Price :</label>
-        <input class="product-input" type="text" name="price" />
-        <button class="add-product-btn" type="submit">Add Product</button>
+        <input class="product-input" type="text" name="price" required/>
+
+        <label class="label-input-title"  for="description">Description :</label>
+        <textarea style="display: block;" class="" maxlength="64" rows="2" cols="54"  type="text" name="description" /></textarea>
+
+        <button style="display: block;" class="add-product-btn" type="submit">Add Product</button>
       </form>
     </div>
   </main>
