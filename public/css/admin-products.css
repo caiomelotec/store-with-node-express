@@ -1,0 +1,30 @@
+.card__actions_btns {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+.delete-btn {
+  background-color: red;
+  border: none;
+  color: white;
+  padding: 12px 16px;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.delete-btn:hover {
+  transform: scale(1.1);
+  background-color: rgb(192, 0, 0);
+}
+.card__actions_btns form {
+  margin: 0;
+  padding: 0;
+}
+
+.edit-btn {
+  background-color: black;
+  color: white;
+  text-decoration: none;
+  padding: 12px 16px;
+  border-radius: 7px;
+}
