@@ -1,4 +1,7 @@
-<%- include('../includes/head.ejs') %> <%- include('../includes/navigation.ejs')
+<%- include('../includes/head.ejs') %>
+</head>
+<body>
+<%- include('../includes/navigation.ejs')
 %>
 <main>
   <% if(prods.length > 0 ){ %>
@@ -21,7 +24,7 @@
           </p>
         </div>
         <div class="card__actions">
-          <button class="btn">Add to Cart</button>
+          <form style="padding: 0; margin: 0;" action="/add-to-cart" method="post"><button class="btn">Add to Cart</button></form>
         </div>
       </div>
     </article>
