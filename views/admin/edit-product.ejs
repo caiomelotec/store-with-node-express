@@ -4,20 +4,36 @@
   <%- include('../includes/navigation.ejs') %>
   <main>
     <div class="div-form-title-input">
-      <form action="/admin/add-product" method="POST">
+      <form action="/admin/<% if (editing) { %>edit-product<% } else { %>add-product<% } %>" method="POST">
+
         <label class="label-input-title" for="title">Title :</label>
-        <input class="product-input" type="text" name="title" required/>
+        <input class="product-input" type="text" name="title" 
+        value="<% if(editing) { %> <%=product.title%> <% } %>" required/>
 
         <label class="label-input-title" for="price">Price :</label>
-        <input class="product-input" type="number" name="price" id="price" step="0.01"/>
+        <input class="product-input" type="number" name="price" id="price" step="0.01"
+        value="<% if (editing) { %><%= product.price %><% } %>" required/>
+      
 
         <label class="label-input-title" for="imgUrl">Image URL:</label>
-        <input class="product-input" type="text" name="imgUrl" id="imgUrl" required/>
+        <input class="product-input" type="text" name="imgUrl" id="imgUrl"
+        value="<% if(editing) { %> <%=product.imgUrl%> <% } %>" required/>
 
         <label class="label-input-title"  for="description">Description :</label>
-        <textarea style="display: block;" class="" maxlength="64" rows="2" cols="54"  type="text" name="description" /></textarea>
+        <textarea style="display: block;" class="" maxlength="64" rows="2" cols="54"  type="text" name="description"><% if(editing) { %> <%= product.description %> <% } %></textarea>
 
-        <button style="display: block;" class="add-product-btn" type="submit">Add Product</button>
+        <% if (editing) {%>
+          <input type="hidden" value="<%= product.id %>" name="id">
+        <%} %>
+
+        <button style="display: block;" class="add-product-btn" type="submit">
+          <% if (editing) { %>
+            Update Product
+          <% } else { %>
+            Add Product
+          <% } %>
+        </button>
+
       </form>
     </div>
   </main>
