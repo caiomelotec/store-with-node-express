@@ -7,21 +7,21 @@
 <main>
   <% if(prods.length > 0 ){ %>
   <div class="grid">
-    <% prods.forEach((prod) => {%>
+    <% prods.forEach((product) => {%>
     <article class="card">
       <header class="card__header">
-        <h1 class="product__title"><%= prod.title %></h1>
+        <h1 class="product__title"><%= product.title %></h1>
       </header>
 
       <div class="card__image">
         <img
-          src="<%= prod.imgUrl %>"
+          src="<%= product.imgUrl %>"
           alt="A Book"
         />
         <div class="card__content">
-          <h2 class="product__price"><%= prod.price %></h2>
+          <h2 class="product__price"><%= formatCurrency(product.price) %></h2>
           <p class="product__description">
-           <%= prod.description %>
+           <%= product.description %>
           </p>
         </div>
         <div class="card__actions_btns">
