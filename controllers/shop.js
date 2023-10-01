@@ -46,6 +46,18 @@ exports.getCheckOut = (req, res) => {
 exports.getOrders = (req, res) => {
   res.render("shop/orders", {
     docTitle:"Your Orders",
-    path:"/cart"
+    path:"/orders"
   })
+}
+// Use Product.findById to retrieve the product by ID
+exports.getProductId = (req, res) => {
+const prodId = req.params.id;
+Product.findById(prodId).then(product => {
+  if(product) {
+    res.render('shop/product-detail', {
+      product: product, // Pass the retrieved product to the view
+      docTitle: product.title,
+      path: '/products'})
+  }
+})
 }
