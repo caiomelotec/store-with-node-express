@@ -3,7 +3,7 @@ const formatCurrency = require('../util/formatCurrency')
 
 
 exports.getAddProduct = (req, res, next) => {
-  res.render("admin/add-product", {
+  res.render("admin/edit-product", {
     docTitle: "Home Shop",
     path: "/admin/add-product",
   });
@@ -17,6 +17,18 @@ exports.addAnewProducts = (req, res, next) => {
   const product = new Product(title, price, description, imgUrl);
   product.save();
   res.redirect("/");
+};
+
+exports.getEditProduct = (req, res, next) => {
+  const editMode = req.query.edit;
+  if (!editMode) {
+    return res.redirect("/");
+  }
+  res.render("admin/edit-product", {
+    docTitle: "Edit Product",
+    path: "/admin/edit-product",
+    editing: editMode,
+  });
 };
 
 exports.getProducts = async (req, res) => {
