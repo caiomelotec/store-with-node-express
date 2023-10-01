@@ -7,6 +7,15 @@ exports.getCart = (req, res) => {
     path:"/cart"
   })
 }
+exports.postCart = (req, res) => {
+  const prodId = req.body.productId
+  console.log(prodId);
+  // res.render("shop/cart", {
+  //   docTitle:"Shopping Cart",
+  //   path:"/cart"
+  // })
+  res.redirect('/cart')
+}
 
 exports.getProducts = async (req, res) => {
   try {
