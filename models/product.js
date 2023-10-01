@@ -1,6 +1,6 @@
 const fs = require("fs");
 const path = require("path");
-const { v4: uuidv4 } = require('uuid');
+const { v4: uuidv4 } = require("uuid");
 // Construct the path to the products.json file
 const filePath = path.join(
   path.dirname(process.mainModule.filename),
@@ -21,20 +21,20 @@ const getProductsFromFile = () => {
       }
     });
   });
-}
+};
 
 module.exports = class Product {
   constructor(title, price, description, imgUrl, id) {
     this.title = title;
     this.price = price;
-    this.description = description
-    this.imgUrl = imgUrl
-    this.id = id
+    this.description = description;
+    this.imgUrl = imgUrl;
+    this.id = id;
   }
 
   save() {
     // Read the existing product data from the file
-    this.id = uuidv4()
+    this.id = uuidv4();
     fs.readFile(filePath, (err, fileContent) => {
       let products = [];
       // Check if there was no error while reading the file
@@ -62,15 +62,15 @@ module.exports = class Product {
     try {
       const products = await getProductsFromFile();
       const product = products.find((product) => {
-        return product.id === id
-      })
-      if(product) {
-        return product
+        return product.id === id;
+      });
+      if (product) {
+        return product;
       } else {
-        throw new Error('Product not Found')
+        throw new Error("Product not Found");
       }
-    } catch(err){
-      throw err
+    } catch (err) {
+      throw err;
     }
   }
 };
