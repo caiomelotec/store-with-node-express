@@ -20,9 +20,6 @@
         />
         <div class="card__content">
           <h2 class="product__price"><%= formatCurrency(product.price) %></h2>
-          <p class="product__description">
-           <%= product.description %>
-          </p>
         </div>
         <div class="card__actions_btns">
           <a class="edit-btn" href="/admin/edit-product/<%= product.id %>?edit=true" >Edit</a>
