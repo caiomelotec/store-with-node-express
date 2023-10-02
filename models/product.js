@@ -42,9 +42,11 @@ module.exports = class Product {
         products = JSON.parse(fileContent);
       }
       // Check if the product already exists based on its ID
-      const existingProductIndex = products.findIndex((product) => product.id === this.id)
+      const existingProductIndex = products.findIndex(
+        (product) => product.id === this.id
+      );
 
-      if(existingProductIndex !== -1) {
+      if (existingProductIndex !== -1) {
         // If the product exists, update it
         products[existingProductIndex] = this;
       } else {
@@ -53,11 +55,44 @@ module.exports = class Product {
         // Add the current product instance ('this') to the 'products' array
         products.push(this);
       }
-      
+
       // Write the updated 'products' array back to the file
       fs.writeFile(filePath, JSON.stringify(products), (err) => {
         console.error(err);
       });
+    });
+  }
+
+  static delete(id) {
+    fs.readFile(filePath, (err, fileContent) => {
+      if (err) {
+        console.error("Error reading product file:", err);
+        return;
+      }
+
+      let products = [];
+
+      try {
+        products = JSON.parse(fileContent);
+      } catch (parseError) {
+        console.error("Error parsing product JSON:", parseError);
+        return;
+      }
+      // Find the index of the product to be deleted
+      const existingProductIndex = products.findIndex((product) => {
+        return id === product.id;
+      });
+
+      if (existingProductIndex !== -1) {
+        // If the product exists, remove it from the 'products' array
+        products.splice(existingProductIndex, 1);
+        // Write the updated 'products' array back to the file
+        fs.writeFile(filePath, JSON.stringify(products), (err) => {
+          if (err) {
+            console.error("Error writing product file:", err);
+          }
+        });
+      }
     });
   }
 
