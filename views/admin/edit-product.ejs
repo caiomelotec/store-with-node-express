@@ -20,7 +20,7 @@
         value="<% if(editing) { %> <%=product.imgUrl%> <% } %>" required/>
 
         <label class="label-input-title"  for="description">Description :</label>
-        <textarea style="display: block;" class="" maxlength="64" rows="2" cols="54"  type="text" name="description"><% if(editing) { %> <%= product.description %> <% } %></textarea>
+        <textarea style="display: block;" class="" maxlength="250" rows="4" cols="54"  type="text" name="description"><% if(editing) { %> <%= product.description %> <% } %></textarea>
 
         <% if (editing) {%>
           <input type="hidden" value="<%= product.id %>" name="id">
