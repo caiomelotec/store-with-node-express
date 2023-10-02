@@ -68,6 +68,7 @@ exports.getProductId = (req, res) => {
         product: product, // Pass the retrieved product to the view
         docTitle: product.title,
         path: "/products",
+        formatCurrency: formatCurrency
       });
     }
   });
