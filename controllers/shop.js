@@ -1,6 +1,6 @@
 const Product = require("../models/product");
 const Cart = require("../models/cart.js");
-const formatCurrency = require('../util/formatCurrency')
+const formatCurrency = require("../util/formatCurrency");
 exports.getCart = (req, res) => {
   res.render("shop/cart", {
     docTitle: "Shopping Cart",
@@ -16,6 +16,14 @@ exports.postCart = (req, res) => {
   res.redirect("/cart");
 };
 
+exports.postDeleteProductFromCart = (req, res) => {
+  const prodId = req.body.productId;
+  Product.findById(prodId).then((product) => {
+    Cart.deleteProductfromCart(prodId, product.price);
+  });
+  res.redirect("/cart");
+};
+
 exports.getProducts = async (req, res) => {
   try {
     const products = await Product.fetchAll(); // fetches the list of products
@@ -23,7 +31,7 @@ exports.getProducts = async (req, res) => {
       prods: products,
       docTitle: "All Products",
       path: "/products",
-      formatCurrency: formatCurrency
+      formatCurrency: formatCurrency,
     });
   } catch (error) {
     console.error(error);
@@ -38,7 +46,7 @@ exports.getIndex = async (req, res) => {
       prods: products,
       docTitle: "Home Shop",
       path: "/",
-      formatCurrency: formatCurrency
+      formatCurrency: formatCurrency,
     });
   } catch (error) {
     console.error(error);
@@ -68,7 +76,7 @@ exports.getProductId = (req, res) => {
         product: product, // Pass the retrieved product to the view
         docTitle: product.title,
         path: "/products",
-        formatCurrency: formatCurrency
+        formatCurrency: formatCurrency,
       });
     }
   });
