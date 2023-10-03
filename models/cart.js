@@ -10,92 +10,49 @@ const filePath = path.join(
 class Cart {
   static addProduct(id, productPrice) {
     fs.readFile(filePath, (err, fileContent) => {
-      if (err) {
-        console.error("Error reading cart file:", err);
-        return;
-      }
-
       let cart = { products: [], totalPrice: 0 };
-
-      if (fileContent && fileContent.length > 0) {
-        try {
-          cart = JSON.parse(fileContent);
-        } catch (parseError) {
-          console.error("Error parsing cart JSON:", parseError);
-          return;
-        }
+      if (!err) {
+        cart = JSON.parse(fileContent);
       }
-
-      // Ensure that cart.products is an array
-      cart.products = cart.products || [];
-
+      // Analyze the cart => Find existing product
       const existingProductIndex = cart.products.findIndex(
-        (product) => product.id === id
+        (prod) => prod.id === id
       );
-
-      if (existingProductIndex !== -1) {
-        // If the product already exists in the cart, update its quantity
-        cart.products[existingProductIndex].quantity += 1;
+      const existingProduct = cart.products[existingProductIndex];
+      let updatedProduct;
+      // Add new product/ increase quantity
+      if (existingProduct) {
+        updatedProduct = { ...existingProduct };
+        updatedProduct.qty = updatedProduct.qty + 1;
+        cart.products = [...cart.products];
+        cart.products[existingProductIndex] = updatedProduct;
       } else {
-        // If it's a new product, add it to the cart
-        cart.products.push({ id: id, quantity: 1 });
+        updatedProduct = { id: id, qty: 1 };
+        cart.products = [...cart.products, updatedProduct];
       }
-
-      // Calculate the total price by summing the productPrice multiplied by quantity
-      cart.totalPrice = cart.products.reduce((total, product) => {
-        return total + product.quantity * productPrice;
-      }, 0);
-
+      cart.totalPrice = cart.totalPrice + +productPrice;
       fs.writeFile(filePath, JSON.stringify(cart), (err) => {
-        if (err) {
-          console.error("Error writing cart file:", err);
-        }
+        console.log(err);
       });
     });
   }
 
-  static deleteProductfromCart(id, productPrice) {
+  static deleteProduct(id, productPrice) {
     fs.readFile(filePath, (err, fileContent) => {
       if (err) {
-        console.error("Error reading cart file:", err);
         return;
       }
-
-      let cart = { products: [], totalPrice: 0 };
-
-      if (fileContent && fileContent.length > 0) {
-        try {
-          cart = JSON.parse(fileContent);
-        } catch (parseError) {
-          console.error("Error parsing cart JSON:", parseError);
-          return;
-        }
-      }
-
-      // Ensure that cart.products is an array
-      cart.products = cart.products || [];
-
-      const existingProductIndex = cart.products.findIndex(
-        (product) => product.id === id
+      const updatedCart = { ...JSON.parse(fileContent) };
+      const product = updatedCart.products.find((prod) => prod.id === id);
+      const productQty = product.qty;
+      updatedCart.products = updatedCart.products.filter(
+        (prod) => prod.id !== id
       );
+      updatedCart.totalPrice =
+        updatedCart.totalPrice - productPrice * productQty;
 
-      if (existingProductIndex !== -1) {
-        // If the product already exists in the cart, update its quantity
-        cart.products[existingProductIndex].quantity -= 1;
-        // Check if the quantity is zero, and if so, remove the product from the cart
-        if (cart.products[existingProductIndex].quantity === 0) {
-          cart.products.splice(existingProductIndex, 1);
-        }
-      }
-      // Calculate the total price by summing the productPrice multiplied by quantity
-      cart.totalPrice = cart.products.reduce((total, product) => {
-        return total + product.quantity * productPrice;
-      }, 0);
-
-      fs.writeFile(filePath, JSON.stringify(cart), (err) => {
-        if (err) {
-          console.error("Error writing cart file:", err);
-        }
+      fs.writeFile(filePath, JSON.stringify(updatedCart), (err) => {
+        console.log(err);
       });
     });
   }
