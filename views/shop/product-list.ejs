@@ -24,10 +24,6 @@
         <div class="card__actions">
           <a href="/products/<%= product.id %>" class="details-btn">Details</a>
           <%- include('../includes/add-to-cart.ejs', {product: product}) %>
-          <form style="padding: 0; margin: 0;" action="/cart/delete" method="post" style="display: flex;">
-            <button class="btn" type="submit">-</button>
-            <input type="hidden" name="productId" value="<%= product.id %>">
-          </form>
         </div>
       </div>
     </article>
