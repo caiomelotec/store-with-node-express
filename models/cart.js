@@ -44,6 +44,16 @@ class Cart {
       }
       const updatedCart = { ...JSON.parse(fileContent) };
       const product = updatedCart.products.find((prod) => prod.id === id);
+
+      if (!product) {
+        // Product not found, handle this case accordingly
+        console.error(`Product with ID ${id} not found in the cart.`);
+        if (typeof callback === "function") {
+          callback(new Error(`Product with ID ${id} not found in the cart.`));
+        }
+        return;
+      }
+
       const productQty = product.qty;
       updatedCart.products = updatedCart.products.filter(
         (prod) => prod.id !== id
