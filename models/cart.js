@@ -69,7 +69,7 @@ class Cart {
 
 
   static getCart(cb) {
-    fs.readFile(p, (err, fileContent) => {
+    fs.readFile(filePath, (err, fileContent) => {
       const cart = JSON.parse(fileContent);
       if(err){
         cb(null)
