@@ -48,9 +48,6 @@ class Cart {
       if (!product) {
         // Product not found, handle this case accordingly
         console.error(`Product with ID ${id} not found in the cart.`);
-        if (typeof callback === "function") {
-          callback(new Error(`Product with ID ${id} not found in the cart.`));
-        }
         return;
       }
 
