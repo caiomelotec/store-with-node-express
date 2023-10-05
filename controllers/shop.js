@@ -42,7 +42,7 @@ exports.getCart = (req, res, next) => {
   Cart.getCart(cart => {
     Product.fetchAll(products => {
       const cartProducts = [];
-      for (product of products) {
+      for (const product of products) {
         const cartProductData = cart.products.find(
           prod => prod.id === product.id
         );
@@ -51,6 +51,7 @@ exports.getCart = (req, res, next) => {
         }
       }
       res.render('shop/cart', {
+        docTitle: 'Shopping Cart',
         path: '/cart',
         pageTitle: 'Your Cart',
         products: cartProducts,
