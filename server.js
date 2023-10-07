@@ -4,6 +4,8 @@ const adminRoutes = require("./routes/admin");
 const shopRouter = require("./routes/shop");
 const bodyParser = require("body-parser");
 const app = express();
+require("dotenv").config();
+console.log(process.env);
 
 //DB
 const db = require("./util/database");
@@ -20,8 +22,10 @@ app.use(express.static(path.join(__dirname, "public")));
 //routers
 app.use("/admin", adminRoutes);
 app.use(shopRouter); // home
-//
-db.execute("SELECT * FROM products").then().catch();
+//DB
+db.execute("SELECT * FROM products")
+  .then((result) => console.log(result[0]))
+  .catch((err) => console.log(err));
 // error page
 app.use((req, res, next) => {
   res.status(404).render("page-not-found", { docTitle: "Page not Found" });
