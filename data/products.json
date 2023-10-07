@@ -1,1 +1,23 @@
-[{"title":" React Key Concepts ","price":"33.99","description":"As the most popular JavaScript library for building modern, interactive user interfaces, React is an in-demand framework that'll bring real value to your career or next project. But like any technology, learning React can be tricky.","imgUrl":"https://m.media-amazon.com/images/I/613V82qOt1L._SL1360_.jpg","id":"5882fbea-5441-46b2-8d5d-a22f57e99fc5"},{"title":"   Node Cookbook   ","price":"28.99","description":"A key technology for building web applications and tooling, Node.js brings JavaScript to the server enabling full-stack development in a common language. This fourth edition of the Node Cookbook is updated with the latest Node.js features.","imgUrl":"  https://m.media-amazon.com/images/I/71U-18vUkRL._SL1360_.jpg  ","id":"9de4b852-e2c1-440a-9412-d7b7cf04f1eb"},{"title":"  Learning JavaScript ","price":"55","description":"Do you want to write beautiful, structured, and maintainable JavaScript by applying modern design patterns to the language? Do you want clean, efficient, manageable code? Want to stay up-to-date with the latest best practices? If so, this is the book","imgUrl":"https://m.media-amazon.com/images/I/81LpyFBbo8L._SL1500_.jpg","id":"48826880-17d1-4e0c-a57c-0a7be892e40e"}]
+[
+  {
+    "title": " React Key Concepts ",
+    "price": "33.99",
+    "description": "As the most popular JavaScript library for building modern, interactive user interfaces, React is an in-demand framework that'll bring real value to your career or next project. But like any technology, learning React can be tricky.",
+    "imgUrl": "https://m.media-amazon.com/images/I/613V82qOt1L._SL1360_.jpg",
+    "id": "5882fbea-5441-46b2-8d5d-a22f57e99fc5"
+  },
+  {
+    "title": "   Node Cookbook   ",
+    "price": "28.99",
+    "description": "A key technology for building web applications and tooling, Node.js brings JavaScript to the server enabling full-stack development in a common language. This fourth edition of the Node Cookbook is updated with the latest Node.js features.",
+    "imgUrl": "  https://m.media-amazon.com/images/I/71U-18vUkRL._SL1360_.jpg  ",
+    "id": "9de4b852-e2c1-440a-9412-d7b7cf04f1eb"
+  },
+  {
+    "title": "  Learning JavaScript ",
+    "price": "55",
+    "description": "Do you want to write beautiful, structured, and maintainable JavaScript by applying modern design patterns to the language? Do you want clean, efficient, manageable code? Want to stay up-to-date with the latest best practices? If so, this is the book",
+    "imgUrl": "https://m.media-amazon.com/images/I/81LpyFBbo8L._SL1500_.jpg",
+    "id": "48826880-17d1-4e0c-a57c-0a7be892e40e"
+  }
+]
