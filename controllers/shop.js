@@ -20,14 +20,16 @@ exports.getProducts = (req, res) => {
 //Get Product
 exports.getProductId = (req, res) => {
   const prodId = req.params.id;
-  Product.findById(prodId, (product) => {
-    res.render("shop/product-detail", {
-      product: product, // Pass the retrieved product to the view
-      docTitle: product.title,
-      path: "/products",
-      formatCurrency: formatCurrency,
-    });
-  });
+  Product.findById(prodId)
+    .then(([product, fieldData]) => {
+      res.render("shop/product-detail", {
+        product: product[0], // Pass the retrieved product to the view
+        docTitle: product.title,
+        path: "/products",
+        formatCurrency: formatCurrency,
+      });
+    })
+    .catch((err) => console.log(err));
 };
 
 exports.getIndex = (req, res) => {
