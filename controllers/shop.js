@@ -23,7 +23,7 @@ exports.getProductId = (req, res) => {
   Product.findById(prodId)
     .then(([product, fieldData]) => {
       res.render("shop/product-detail", {
-        product: product[0], // Pass the retrieved product to the view
+        product: product, // Pass the retrieved product to the view
         docTitle: product.title,
         path: "/products",
         formatCurrency: formatCurrency,
