@@ -58,14 +58,16 @@ exports.postEditProduct = (req, res) => {
 };
 
 exports.getProducts = (req, res) => {
-  Product.fetchAll((products) => {
-    res.render("admin/products", {
-      prods: products,
-      docTitle: "Admin Products",
-      path: "/admin/products",
-      formatCurrency: formatCurrency,
-    });
-  });
+  Product.fetchAll()
+    .then(([products, fieldData]) => {
+      res.render("admin/products", {
+        prods: products,
+        docTitle: "Admin Products",
+        path: "/admin/products",
+        formatCurrency: formatCurrency,
+      });
+    })
+    .catch();
 };
 
 exports.postDeleteProduct = (req, res) => {
