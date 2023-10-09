@@ -148,8 +148,16 @@ exports.postOrder = (req, res) => {
 };
 
 exports.getOrders = (req, res) => {
-  res.render("shop/orders", {
-    docTitle: "Your Orders",
-    path: "/orders",
-  });
+  req.user
+    .getOrders({ include: ["products"] })
+    .then((orders) => {
+      res.render("shop/orders", {
+        orders: orders,
+        docTitle: "Your Orders",
+        path: "/orders",
+      });
+    })
+    .catch((err) => {
+      console.log("Error fetching orders:", err);
+    });
 };
