@@ -1,3 +1,4 @@
+const { redirect } = require("react-router-dom");
 const Product = require("../models/product");
 const formatCurrency = require("../util/formatCurrency");
 
@@ -20,7 +21,10 @@ exports.addAnewProducts = (req, res, next) => {
     description: description,
     imgUrl: imgUrl,
   })
-    .then((product) => console.log(product))
+    .then((product) => {
+      console.log("success, creating product");
+      res.redirect("/admin/add-product");
+    })
     .catch((err) => console.log(err));
 };
 

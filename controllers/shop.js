@@ -1,11 +1,10 @@
 const Product = require("../models/product");
 const Cart = require("../models/cart.js");
 const formatCurrency = require("../util/formatCurrency");
-const { log } = require("handlebars");
 
 exports.getProducts = (req, res) => {
-  Product.fetchAll()
-    .then(([products, fieldData]) => {
+  Product.findAll()
+    .then((products) => {
       res.render("shop/product-list", {
         prods: products,
         docTitle: "All Products",
@@ -33,8 +32,8 @@ exports.getProductId = (req, res) => {
 };
 
 exports.getIndex = (req, res) => {
-  Product.fetchAll()
-    .then(([products, fieldData]) => {
+  Product.findAll()
+    .then((products) => {
       res.render("shop/index", {
         prods: products,
         docTitle: "Home Shop",
