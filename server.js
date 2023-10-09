@@ -3,12 +3,13 @@ const path = require("path");
 const bodyParser = require("body-parser");
 const app = express();
 require("dotenv").config();
-console.log(process.env);
+// console.log(process.env);
 
 // Models
 const Product = require("./models/product");
 const User = require("./models/user");
-
+const Cart = require("./models/cart");
+const CartItem = require("./models/cart-item");
 // Middleware to fetch a user
 app.use((req, res, next) => {
   User.findByPk(1)
@@ -22,7 +23,11 @@ app.use((req, res, next) => {
 // Relationships
 Product.belongsTo(User, { constraints: true, onDelete: "CASCADE" });
 User.hasMany(Product);
-
+User.hasOne(Cart);
+Cart.belongsTo(User);
+Cart.belongsToMany(Product, { through: CartItem });
+Product.belongsToMany(Cart, { through: CartItem });
+// User.hasMany(CartItem);
 // DB
 const sequelize = require("./util/database");
 
@@ -48,7 +53,7 @@ app.use(shopRouter); // home
 
 // DB synchronization and server listening
 sequelize
-  .sync()
+  .sync({ force: true })
   .then((result) => {
     return User.findByPk(1);
   })
