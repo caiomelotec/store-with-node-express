@@ -1,28 +1,15 @@
 const express = require("express");
 const path = require("path");
-const adminRoutes = require("./routes/admin");
-const shopRouter = require("./routes/shop");
 const bodyParser = require("body-parser");
 const app = express();
 require("dotenv").config();
 console.log(process.env);
 
-//DB
-const sequelize = require("./util/database");
-// EJS
-app.set("view engine", "ejs");
-app.set("views", "views");
+// Models
+const Product = require("./models/product");
+const User = require("./models/user");
 
-const port = 3000;
-
-// parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }));
-// acess to the public folder
-app.use(express.static(path.join(__dirname, "public")));
-//routers
-app.use("/admin", adminRoutes);
-app.use(shopRouter); // home
-// User Middleware
+// Middleware to fetch a user
 app.use((req, res, next) => {
   User.findByPk(1)
     .then((user) => {
@@ -31,29 +18,39 @@ app.use((req, res, next) => {
     })
     .catch((err) => console.log(err));
 });
-//Models
-const Product = require("./models/product");
-const User = require("./models/user");
-//Relationships
+
+// Relationships
 Product.belongsTo(User, { constraints: true, onDelete: "CASCADE" });
 User.hasMany(Product);
-//DB TESTING CODE
-// db.execute("SELECT * FROM products")
-//   .then((result) => console.log(result[0]))
-//   .catch((err) => console.log(err));
-// // error page
-// app.use((req, res, next) => {
-//   res.status(404).render("page-not-found", { docTitle: "Page not Found" });
-// });
 
-// listening
-//DB
+// DB
+const sequelize = require("./util/database");
+
+// EJS
+app.set("view engine", "ejs");
+app.set("views", "views");
+
+const port = 3000;
+
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }));
+
+// Access to the public folder
+app.use(express.static(path.join(__dirname, "public")));
+
+// Routes
+const adminRoutes = require("./routes/admin");
+const shopRouter = require("./routes/shop");
+
+// Routers
+app.use("/admin", adminRoutes);
+app.use(shopRouter); // home
+
+// DB synchronization and server listening
 sequelize
-  // .sync({ force: true })
   .sync()
   .then((result) => {
     return User.findByPk(1);
-    // app.listen(port);
   })
   .then((user) => {
     if (!user) {

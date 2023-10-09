@@ -15,17 +15,26 @@ exports.addAnewProducts = (req, res, next) => {
   const price = req.body.price;
   const description = req.body.description;
   const imgUrl = req.body.imgUrl;
-  Product.create({
-    title: title,
-    price: price,
-    description: description,
-    imgUrl: imgUrl,
-  })
-    .then((product) => {
+
+  // Check if req.user is defined before accessing its properties
+  if (!req.user) {
+    return res.status(401).send("Unauthorized"); // Handle unauthorized access
+  }
+  req.user
+    .createProduct({
+      title: title,
+      price: price,
+      description: description,
+      imgUrl: imgUrl,
+    })
+    .then(() => {
       console.log("success, creating product");
       res.redirect("/admin/add-product");
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      console.log(err);
+      // Handle the error appropriately
+    });
 };
 
 exports.getEditProduct = (req, res, next) => {
