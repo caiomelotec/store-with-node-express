@@ -22,6 +22,13 @@ app.use(express.static(path.join(__dirname, "public")));
 //routers
 app.use("/admin", adminRoutes);
 app.use(shopRouter); // home
+
+//Models
+const Product = require("./models/product");
+const User = require("./models/user");
+//Relationships
+Product.belongsTo(User, { constraints: true, onDelete: "CASCADE" });
+User.hasMany(Product);
 //DB TESTING CODE
 // db.execute("SELECT * FROM products")
 //   .then((result) => console.log(result[0]))
@@ -34,7 +41,7 @@ app.use(shopRouter); // home
 // listening
 //DB
 sequelize
-  .sync()
+  .sync({ force: true })
   .then((result) => {
     app.listen(port);
   })
