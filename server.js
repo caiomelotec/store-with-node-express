@@ -8,7 +8,7 @@ require("dotenv").config();
 console.log(process.env);
 
 //DB
-const db = require("./util/database");
+const sequelize = require("./util/database");
 // EJS
 app.set("view engine", "ejs");
 app.set("views", "views");
@@ -32,6 +32,10 @@ app.use(shopRouter); // home
 // });
 
 // listening
-app.listen(port, () => {
-  console.log(`listening on port ${port}`);
-});
+//DB
+sequelize
+  .sync()
+  .then((result) => {
+    app.listen(port);
+  })
+  .catch((err) => console.log(err));
