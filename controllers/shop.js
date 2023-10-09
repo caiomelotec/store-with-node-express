@@ -15,8 +15,6 @@ exports.getProducts = (req, res) => {
     .catch((err) => console.log(err));
 };
 
-// Use Product.findById to retrieve the product by ID
-//Get Product
 exports.getProductId = (req, res) => {
   const prodId = req.params.id;
   Product.findByPk(prodId)
@@ -99,10 +97,19 @@ exports.postCart = (req, res) => {
 
 exports.postCartDeleteProduct = (req, res) => {
   const prodId = req.body.id;
-  Product.findById(prodId, (product) => {
-    Cart.deleteProduct(prodId, product.price);
-    res.redirect("/cart");
-  });
+  req.user
+    .getCart()
+    .then((cart) => {
+      return cart.getProducts({ where: { id: prodId } });
+    })
+    .then((products) => {
+      const product = products[0];
+      return product.cart_item.destroy();
+    })
+    .then(() => {
+      res.redirect("/cart");
+    })
+    .catch((err) => console.log(err));
 };
 
 exports.getCheckOut = (req, res) => {
