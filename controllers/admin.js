@@ -67,8 +67,8 @@ exports.postEditProduct = (req, res) => {
 };
 
 exports.getProducts = (req, res) => {
-  Product.fetchAll()
-    .then(([products, fieldData]) => {
+  Product.findAll()
+    .then((products) => {
       res.render("admin/products", {
         prods: products,
         docTitle: "Admin Products",
@@ -81,6 +81,7 @@ exports.getProducts = (req, res) => {
 
 exports.postDeleteProduct = (req, res) => {
   const prodId = req.body.id;
-  Product.deleteById(prodId);
-  res.redirect("/admin/products");
+  Product.destroy({ where: { id: prodId } }).then(() => {
+    res.redirect("/admin/products");
+  });
 };
