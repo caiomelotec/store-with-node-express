@@ -53,7 +53,7 @@ app.use(shopRouter); // home
 
 // DB synchronization and server listening
 sequelize
-  .sync({ force: true })
+  .sync()
   .then((result) => {
     return User.findByPk(1);
   })
@@ -68,6 +68,9 @@ sequelize
   })
   .then((user) => {
     // console.log(user);
+    user.createCart();
+  })
+  .then(() => {
     app.listen(port);
   })
   .catch((err) => console.log(err));
