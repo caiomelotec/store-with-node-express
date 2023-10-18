@@ -1,21 +1,18 @@
 require("dotenv").config();
-const Sequelize = require("sequelize");
 
-const sequelize = new Sequelize("store", "root", process.env.PASSWORD, {
-  dialect: "mysql",
-  host: "localhost",
-});
+const mongodb = require("mongodb");
 
-module.exports = sequelize;
-// const mysql = require("mysql2");
+const MongoClient = mongodb.MongoClient;
 
-// const mysql = require("mysql2");
+const mongoConnect = (cb) => {
+  MongoClient.connect(
+    `mongodb+srv://caiomelo:${process.env.PASSWORD}@caiocluster.infg9q7.mongodb.net/?retryWrites=true&w=majority`
+  )
+    .then((client) => {
+      console.log("Connected to MongoDB");
+      cb(client);
+    })
+    .catch((err) => console.log(err));
+};
 
-// const pool = mysql.createPool({
-//   host: "localhost",
-//   user: "root",
-//   database: "store",
-//   password: process.env.PASSWORD,
-// });
-
-// module.exports = pool.promise();
+module.exports = mongoConnect;
