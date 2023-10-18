@@ -3,6 +3,7 @@ const path = require("path");
 const bodyParser = require("body-parser");
 const app = express();
 require("dotenv").config();
+const mongoConnect = require("./util/database");
 // console.log(process.env);
 
 // Middleware to fetch a user
@@ -32,9 +33,15 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 
 // Routes
-const adminRoutes = require("./routes/admin");
-const shopRouter = require("./routes/shop");
+// const adminRoutes = require("./routes/admin");
+// const shopRouter = require("./routes/shop");
 
 // Routers
-app.use("/admin", adminRoutes);
-app.use(shopRouter); // home
+// app.use("/admin", adminRoutes);
+// app.use(shopRouter); // home
+
+// connecting to mongodb
+mongoConnect((client) => {
+  console.log(client);
+  app.listen(port);
+});
