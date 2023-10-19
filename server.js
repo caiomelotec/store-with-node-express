@@ -41,7 +41,6 @@ app.use("/admin", adminRoutes);
 // app.use(shopRouter); // home
 
 // connecting to mongodb
-mongoConnect((client) => {
-  console.log(client);
+mongoConnect(() => {
   app.listen(port);
 });
