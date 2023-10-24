@@ -18,7 +18,7 @@ exports.getProducts = (req, res) => {
 
 exports.getProductId = (req, res) => {
   const prodId = req.params.id;
-  Product.findByPk(prodId)
+  Product.findById(prodId)
     .then((product) => {
       res.render("shop/product-detail", {
         product: product, // Pass the retrieved product to the view

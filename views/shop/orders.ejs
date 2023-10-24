@@ -9,7 +9,7 @@
     <ul>
       <% orders.forEach(ord => { %>
         <li>
-          <h1><%= ord.id %></h1>
+          <h1><%= ord._id %></h1>
           <ul>
             <% ord.products.forEach(item => { %>
               <li><%= item.title %></li>
