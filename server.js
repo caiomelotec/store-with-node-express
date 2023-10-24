@@ -3,7 +3,7 @@ const path = require("path");
 const bodyParser = require("body-parser");
 const app = express();
 require("dotenv").config();
-const mongoConnect = require("./util/database");
+const mongoConnect = require("./util/database").mongoConnect;
 // console.log(process.env);
 
 // Middleware to fetch a user
@@ -14,6 +14,7 @@ app.use((req, res, next) => {
   //     next();
   //   })
   //   .catch((err) => console.log(err));
+  next();
 });
 
 // Relationships

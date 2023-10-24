@@ -8,7 +8,14 @@ class Product {
     this.description = description;
   }
 
-  save() {}
+  save() {
+    const db = getDb();
+    return db
+      .collection("products")
+      .insertOne(this)
+      .then((result) => console.log(result))
+      .catch((err) => console.error(err));
+  }
 }
 
 module.exports = Product;
