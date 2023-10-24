@@ -35,11 +35,11 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // Routes
 const adminRoutes = require("./routes/admin");
-// const shopRouter = require("./routes/shop");
+const shopRouter = require("./routes/shop");
 
 // Routers
 app.use("/admin", adminRoutes);
-// app.use(shopRouter); // home
+app.use(shopRouter); // home
 
 // connecting to mongodb
 mongoConnect(() => {

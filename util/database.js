@@ -8,7 +8,7 @@ let db;
 
 const mongoConnect = (cb) => {
   MongoClient.connect(
-    `mongodb+srv://caiomelo:${process.env.PASSWORD}@caiocluster.infg9q7.mongodb.net/?retryWrites=true&w=majority`
+    `mongodb+srv://caiomelo:${process.env.PASSWORD}@caiocluster.infg9q7.mongodb.net/shop?retryWrites=true&w=majority`
   )
     .then((client) => {
       console.log("Connected to MongoDB");

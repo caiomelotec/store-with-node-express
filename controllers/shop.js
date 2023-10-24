@@ -4,7 +4,7 @@ const Product = require("../models/product");
 const formatCurrency = require("../util/formatCurrency");
 
 exports.getProducts = (req, res) => {
-  Product.findAll()
+  Product.fetchAll()
     .then((products) => {
       res.render("shop/product-list", {
         prods: products,
@@ -31,7 +31,7 @@ exports.getProductId = (req, res) => {
 };
 
 exports.getIndex = (req, res) => {
-  Product.findAll()
+  Product.fetchAll()
     .then((products) => {
       res.render("shop/index", {
         prods: products,
