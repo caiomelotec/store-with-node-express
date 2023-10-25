@@ -22,9 +22,9 @@
           <h2 class="product__price"><%= formatCurrency(product.price) %></h2>
         </div>
         <div class="card__actions_btns">
-          <a class="edit-btn" href="/admin/edit-product/<%= product.id %>?edit=true" >Edit</a>
+          <a class="edit-btn" href="/admin/edit-product/<%= product._id %>?edit=true" >Edit</a>
           <form action="/admin/delete-product" method="post">
-            <input type="hidden" value="<%= product.id %>" name="id">
+            <input type="hidden" value="<%= product._id %>" name="id">
             <button class="delete-btn" type="submit">Delete</button>
           </form>
         </div>

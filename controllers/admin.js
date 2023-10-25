@@ -81,24 +81,23 @@ exports.addAnewProducts = (req, res, next) => {
 //     });
 // };
 
-// exports.getProducts = (req, res) => {
-//   // Product.findAll()
-//   req.user
-//     .getProducts()
-//     .then((products) => {
-//       res.render("admin/products", {
-//         prods: products,
-//         docTitle: "Admin Products",
-//         path: "/admin/products",
-//         formatCurrency: formatCurrency,
-//       });
-//     })
-//     .catch();
-// };
+exports.getProducts = (req, res) => {
+  // Product.findAll()
+  Product.fetchAll()
+    .then((products) => {
+      res.render("admin/products", {
+        prods: products,
+        docTitle: "Admin Products",
+        path: "/admin/products",
+        formatCurrency: formatCurrency,
+      });
+    })
+    .catch();
+};
 
-// exports.postDeleteProduct = (req, res) => {
-//   const prodId = req.body.id;
-//   Product.destroy({ where: { id: prodId } }).then(() => {
-//     res.redirect("/admin/products");
-//   });
-// };
+exports.postDeleteProduct = (req, res) => {
+  const prodId = req.body.id;
+  Product.deleteProduct(prodId).then(() => {
+    res.redirect("/admin/products");
+  });
+};
