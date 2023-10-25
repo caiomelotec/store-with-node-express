@@ -1,5 +1,7 @@
 const Product = require("../models/product");
 const formatCurrency = require("../util/formatCurrency");
+const mongodb = require("mongodb");
+const ObjectId = mongodb.ObjectId;
 
 exports.getAddProduct = (req, res, next) => {
   res.render("admin/edit-product", {
@@ -32,54 +34,52 @@ exports.addAnewProducts = (req, res, next) => {
     });
 };
 
-// exports.getEditProduct = (req, res, next) => {
-//   const editMode = req.query.edit;
-//   const prodId = req.params.id;
+exports.getEditProduct = (req, res, next) => {
+  const editMode = req.query.edit;
+  const prodId = req.params.id;
 
-//   if (!editMode) {
-//     return res.redirect("/");
-//   }
+  if (!editMode) {
+    return res.redirect("/");
+  }
 
-//   // Product.findByPk(prodId);
-//   req.user
-//     .getProducts({ where: { id: prodId } })
-//     .then((products) => {
-//       const product = products[0];
-//       if (!product) {
-//         return res.redirect("/");
-//       }
-//       res.render("admin/edit-product", {
-//         docTitle: "Edit Product",
-//         path: "/admin/edit-product",
-//         editing: editMode,
-//         product: product,
-//       });
-//     })
-//     .catch((err) => console.log(err));
-// };
+  Product.findById(prodId)
+    .then((product) => {
+      if (!product) {
+        return res.redirect("/");
+      }
+      res.render("admin/edit-product", {
+        docTitle: "Edit Product",
+        path: "/admin/edit-product",
+        editing: editMode,
+        product: product,
+      });
+    })
+    .catch((err) => console.log(err));
+};
 
-// exports.postEditProduct = (req, res) => {
-//   const prodId = req.body.id;
-//   const updatedTitle = req.body.title;
-//   const updatedPrice = req.body.price;
-//   const updatedImgURL = req.body.imgUrl;
-//   const updateDescription = req.body.description;
-//   Product.findByPk(prodId)
-//     .then((product) => {
-//       product.title = updatedTitle;
-//       product.price = updatedPrice;
-//       product.imgUrl = updatedImgURL;
-//       product.description = updateDescription;
-//       return product.save();
-//     })
-//     .then(() => {
-//       console.log("success, updating product");
-//       res.redirect("/admin/products");
-//     })
-//     .catch((err) => {
-//       console.log(err);
-//     });
-// };
+exports.postEditProduct = (req, res) => {
+  const prodId = req.body.id;
+  const updatedTitle = req.body.title;
+  const updatedPrice = req.body.price;
+  const updatedImgURL = req.body.imgUrl;
+  const updateDescription = req.body.description;
+  const product = new Product(
+    updatedTitle,
+    updatedPrice,
+    updatedImgURL,
+    updateDescription,
+    new ObjectId(prodId)
+  );
+  product
+    .save()
+    .then(() => {
+      console.log("success, updating product");
+      res.redirect("/admin/products");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
 
 exports.getProducts = (req, res) => {
   // Product.findAll()

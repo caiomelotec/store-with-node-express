@@ -23,7 +23,7 @@
         <textarea style="display: block;" class="" maxlength="250" rows="4" cols="54"  type="text" name="description"><% if(editing) { %> <%= product.description %> <% } %></textarea>
 
         <% if (editing) {%>
-          <input type="hidden" value="<%= product.id %>" name="id">
+          <input type="hidden" value="<%= product._id %>" name="id">
         <%} %>
 
         <button style="display: block;" class="add-product-btn" type="submit">
