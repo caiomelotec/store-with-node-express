@@ -14,12 +14,15 @@ exports.addAnewProducts = (req, res, next) => {
   const price = req.body.price;
   const description = req.body.description;
   const imgUrl = req.body.imgUrl;
-
-  // Check if req.user is defined before accessing its properties
-  // if (!req.user) {
-  //   return res.status(401).send("Unauthorized"); // Handle unauthorized access
-  // }
-  const product = new Product(title, price, imgUrl, description);
+  const product = new Product(
+    title,
+    price,
+    imgUrl,
+    description,
+    null,
+    req.user._id,
+    req.user.username
+  );
 
   product
     .save()

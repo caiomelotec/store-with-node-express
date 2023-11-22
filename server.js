@@ -4,24 +4,22 @@ const bodyParser = require("body-parser");
 const app = express();
 require("dotenv").config();
 const mongoConnect = require("./util/database").mongoConnect;
-// console.log(process.env);
+const User = require("./models/user");
 
-// Middleware to fetch a user
 app.use((req, res, next) => {
-  // User.findByPk(1)
-  //   .then((user) => {
-  //     req.user = user;
-  //     next();
-  //   })
-  //   .catch((err) => console.log(err));
-  next();
+  User.findUserById("655c151e84ce500ecbba3745")
+    .then((user) => {
+      // Attach the user to the request object
+      req.user = user;
+
+      console.log("User", user);
+      next();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 });
 
-// Relationships
-
-// DB
-
-// EJS
 app.set("view engine", "ejs");
 app.set("views", "views");
 
@@ -43,5 +41,6 @@ app.use(shopRouter); // home
 
 // connecting to mongodb
 mongoConnect(() => {
+  // if()
   app.listen(port);
 });
