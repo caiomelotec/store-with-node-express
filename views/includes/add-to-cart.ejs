@@ -1,4 +1,9 @@
-<form style="padding: 0; margin: 0;" action="/cart" method="post" style="display: flex;">
+<form
+  style="padding: 0; margin: 0"
+  action="/cart"
+  method="post"
+  style="display: flex"
+>
   <button class="btn" type="submit">Add to Cart</button>
-  <input type="hidden" name="productId" value="<%= product.id %>">
+  <input type="hidden" name="productId" value="<%= product._id %>" />
 </form>
