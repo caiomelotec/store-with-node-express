@@ -72,6 +72,8 @@ exports.postCart = (req, res) => {
     .then((result) => {
       console.log(result);
     });
+
+  res.redirect("/");
 };
 
 exports.postCartDeleteProduct = (req, res) => {
