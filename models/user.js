@@ -1,6 +1,8 @@
 const mongodb = require("mongodb");
 const getDb = require("../util/database").getDb;
 
+const ObjectId = mongodb.ObjectId;
+
 class User {
   constructor(username, email, cart, id) {
     this.username = username;
@@ -11,14 +13,7 @@ class User {
 
   save() {
     const db = getDb();
-    if (this.id) {
-      db.collection("users").updateOne(
-        { _id: new ObjectId(this.id) },
-        { $set: { username: this.username, email: this.email } }
-      );
-    } else {
-      db.collection("users").insertOne(this);
-    }
+    return db.collection("users").insertOne(this);
   }
 
   addToCart(product) {
@@ -37,7 +32,7 @@ class User {
       updatedCartItems[cartProductIndex].quantity = newQuantity;
     } else {
       updatedCartItems.push({
-        productId: new mongodb.ObjectId(product._id),
+        productId: new ObjectId(product._id),
         quantity: newQuantity,
       });
     }
@@ -49,7 +44,7 @@ class User {
     return db
       .collection("users")
       .updateOne(
-        { _id: new mongodb.ObjectId(this._id) },
+        { _id: new ObjectId(this._id) },
         { $set: { cart: updatedCart } }
       );
   }
@@ -82,10 +77,39 @@ class User {
 
     return db.collection("users").updateOne(
       {
-        _id: new mongodb.ObjectId(this._id),
+        _id: new ObjectId(this._id),
       },
       { $set: { cart: { items: updatedCartItems } } }
     );
+  }
+
+  addOrder() {
+    const db = getDb();
+    return this.getCart()
+      .then((products) => {
+        const order = {
+          items: products,
+          user: {
+            _id: new ObjectId(this._id),
+            name: this.username,
+          },
+        };
+        return db.collection("orders").insertOne(order);
+      })
+      .then((result) => {
+        this.cart = { items: [] };
+        return db
+          .collection("users")
+          .updateOne(
+            { _id: new ObjectId(this._id) },
+            { $set: { cart: { items: [] } } }
+          );
+      });
+  }
+
+  getOrders() {
+    const db = getDb();
+    return db.collection("orders");
   }
 
   static findUserById(id) {

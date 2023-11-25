@@ -89,26 +89,8 @@ exports.getCheckOut = (req, res) => {
 };
 
 exports.postOrder = (req, res) => {
-  let fetchedCart;
   req.user
-    .getCart()
-    .then((cart) => {
-      fetchedCart = cart;
-      return cart.getProducts();
-    })
-    .then((products) => {
-      return req.user.createOrder().then((order) => {
-        return order.addProducts(
-          products.map((product) => {
-            product.order_item = { quantity: product.cart_item.quantity };
-            return product;
-          })
-        );
-      });
-    })
-    .then(() => {
-      return fetchedCart.setProducts(null);
-    })
+    .addOrder()
     .then(() => {
       res.redirect("/orders");
     })
