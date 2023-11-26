@@ -1,6 +1,6 @@
 const Product = require("../models/product");
 // const Cart = require("../models/cart");
-// const Order = require("../models/order");
+const Order = require("../models/order");
 const formatCurrency = require("../util/formatCurrency");
 
 exports.getProducts = (req, res) => {
@@ -91,9 +91,25 @@ exports.getCheckOut = (req, res) => {
 
 exports.postOrder = (req, res) => {
   req.user
-    .addOrder()
+    .populate("cart.items.productId")
+    .then((user) => {
+      const products = user.cart.items.map((item) => {
+        return { quantity: item.quantity, product: { ...item.productId._doc } };
+      });
+
+      const order = new Order({
+        user: {
+          name: req.user.username,
+          userId: req.user,
+        },
+        products: products,
+      });
+
+      return order.save();
+    })
     .then(() => {
-      res.redirect("/orders");
+      req.user.clearCart();
+      res.redirect("/");
     })
     .catch((err) => console.log(err));
 };
