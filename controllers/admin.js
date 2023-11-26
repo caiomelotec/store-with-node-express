@@ -94,7 +94,12 @@ exports.getProducts = (req, res) => {
 
 exports.postDeleteProduct = (req, res) => {
   const prodId = req.body.id;
-  Product.deleteProduct(prodId).then(() => {
-    res.redirect("/admin/products");
-  });
+  Product.findOneAndDelete(prodId)
+    .then(() => {
+      res.redirect("/admin/products");
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Internal Server Error");
+    });
 };
