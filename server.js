@@ -30,11 +30,13 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // Routes
 const adminRoutes = require("./routes/admin");
-const shopRouter = require("./routes/shop");
+const shopRoutes = require("./routes/shop");
+const authRoutes = require("./routes/auth");
 
 // Routers
 app.use("/admin", adminRoutes);
-app.use(shopRouter); // home
+app.use(shopRoutes); // home
+app.use(authRoutes);
 
 // connecting to mongodb
 mongoose
