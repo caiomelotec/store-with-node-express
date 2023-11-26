@@ -115,9 +115,9 @@ exports.postOrder = (req, res) => {
 };
 
 exports.getOrders = (req, res) => {
-  req.user
-    .getOrders()
+  Order.find({ "user.userId": req.user._id })
     .then((orders) => {
+      console.log(orders);
       res.render("shop/orders", {
         orders: orders,
         docTitle: "Your Orders",
