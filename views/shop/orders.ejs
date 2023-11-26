@@ -10,7 +10,7 @@
       <% orders.forEach(ord => { %>
         <div class="orders-container">
           <h4>Order Number: <%= ord._id %></h4>
-            <% ord.items.forEach(item => { %>
+            <% ord.products.forEach(item => { %>
           <div class="oder-info-div">
               <span>Title: <%= item.title %></span>
               <span>Quantity: <%= item.quantity %></span>
