@@ -1,28 +1,53 @@
 const express = require("express");
 const path = require("path");
 const bodyParser = require("body-parser");
-const app = express();
-require("dotenv").config();
-const User = require("./models/user");
+const session = require("express-session");
+const MongoDBStore = require("connect-mongodb-session")(session);
 const mongoose = require("mongoose");
+const User = require("./models/user");
+require("dotenv").config();
 
+const app = express();
+
+// Set up session store
+const store = new MongoDBStore({
+  uri: `mongodb+srv://caiomelo:${process.env.PASSWORD}@caiocluster.infg9q7.mongodb.net/shop`,
+  collection: "sessions",
+  expires: 12 * 60 * 60 * 1000, // 12h in milliseconds
+});
+
+// Use session middleware
+app.use(
+  session({
+    secret: "adgasgdi127812r6v!a4!5!74",
+    resave: false,
+    saveUninitialized: false,
+    store: store,
+  })
+);
+
+// Custom middleware to load user from session
 app.use((req, res, next) => {
-  User.findById("6562e11c104e1410408d23b8")
+  if (!req.session.user) {
+    return next();
+  }
+
+  User.findById(req.session.user._id)
     .then((user) => {
       req.user = user;
-      next();
+      next(); // Make sure to call next() here
     })
     .catch((err) => {
       console.log(err);
+      next();
     });
 });
 
+// Set up view engine
 app.set("view engine", "ejs");
 app.set("views", "views");
 
-const port = 3000;
-
-// parse application/x-www-form-urlencoded
+// Parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // Access to the public folder
@@ -33,25 +58,25 @@ const adminRoutes = require("./routes/admin");
 const shopRoutes = require("./routes/shop");
 const authRoutes = require("./routes/auth");
 
-// Routers
+// Use routers
 app.use("/admin", adminRoutes);
-app.use(shopRoutes); // home
+app.use(shopRoutes); // Home
 app.use(authRoutes);
 
-// connecting to mongodb
+// Connect to MongoDB
 mongoose
   .connect(
-    `mongodb+srv://caiomelo:${process.env.PASSWORD}@caiocluster.infg9q7.mongodb.net/shop?retryWrites=true&w=majority`
+    `mongodb+srv://caiomelo:${process.env.PASSWORD}@caiocluster.infg9q7.mongodb.net/shop`
   )
-  .then((result) => {
+  .then(() => {
     // const user = new User({
     //   username: "caio-admin",
     //   email: "admincaio@gmail.com",
-    //   cart: {
-    //     items: [],
-    //   },
+    //   cart: { items: [] },
     // });
     // user.save();
-    app.listen(port);
+    app.listen(3000, () => {
+      console.log("Server is running on port 3000");
+    });
   })
   .catch((err) => console.error(err));
