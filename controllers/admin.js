@@ -2,13 +2,13 @@ const Product = require("../models/product");
 const formatCurrency = require("../util/formatCurrency");
 
 exports.getAddProduct = (req, res, next) => {
-  const cookieString = req.get("Cookie");
-  const isAuth = cookieString.split("=")[1];
+  // const cookieString = req.get("Cookie");
+  // const isAuth = cookieString?.split("=")[1];
   res.render("admin/edit-product", {
     docTitle: "Home Shop",
     path: "/admin/add-product",
     editing: false,
-    isAuth: isAuth,
+    isAuth: req.session.isAuth,
   });
 };
 
@@ -22,7 +22,7 @@ exports.addAnewProducts = (req, res, next) => {
     price: price,
     imgUrl: imgUrl,
     description: description,
-    userId: req.user,
+    userId: req.session.user,
   });
 
   product
@@ -37,8 +37,8 @@ exports.addAnewProducts = (req, res, next) => {
 };
 
 exports.getEditProduct = (req, res, next) => {
-  const cookieString = req.get("Cookie");
-  const isAuth = cookieString.split("=")[1];
+  // const cookieString = req.get("Cookie");
+  // const isAuth = cookieString?.split("=")[1];
   const editMode = req.query.edit;
   const prodId = req.params.id;
 
@@ -56,7 +56,7 @@ exports.getEditProduct = (req, res, next) => {
         path: "/admin/edit-product",
         editing: editMode,
         product: product,
-        isAuth: isAuth,
+        isAuth: req.session.isAuth,
       });
     })
     .catch((err) => console.log(err));
@@ -86,8 +86,8 @@ exports.postEditProduct = (req, res) => {
 };
 
 exports.getProducts = (req, res) => {
-  const cookieString = req.get("Cookie");
-  const isAuth = cookieString.split("=")[1];
+  // const cookieString = req.get("Cookie");
+  // const isAuth = cookieString?.split("=")[1];
   Product.find()
     .then((products) => {
       res.render("admin/products", {
@@ -95,15 +95,15 @@ exports.getProducts = (req, res) => {
         docTitle: "Admin Products",
         path: "/admin/products",
         formatCurrency: formatCurrency,
-        isAuth: isAuth,
+        isAuth: req.session.isAuth,
       });
     })
     .catch();
 };
 
 exports.postDeleteProduct = (req, res) => {
-  const prodId = req.body.id;
-  Product.findOneAndDelete(prodId)
+  const prodId = req.body.productId;
+  Product.findByIdAndDelete(prodId)
     .then(() => {
       res.redirect("/admin/products");
     })
