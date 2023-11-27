@@ -17,7 +17,8 @@
           >Orders</a
         >
       </li>
-      <li>
+      <% if (isAuth) { %>
+      <!-- <!-- <li> -->
         <a
           class="<%= path === '/admin/add-product' ? 'active' : '' %>"
           href="/admin/add-product"
@@ -31,6 +32,7 @@
           >Admin Products</a
         >
       </li>
+      <% } %>
     </ul>
     <ul>
       <li>

@@ -4,6 +4,8 @@ const Order = require("../models/order");
 const formatCurrency = require("../util/formatCurrency");
 
 exports.getProducts = (req, res) => {
+  const cookieString = req.get("Cookie");
+  const isAuth = cookieString.split("=")[1];
   Product.find()
     .then((products) => {
       res.render("shop/product-list", {
@@ -11,12 +13,15 @@ exports.getProducts = (req, res) => {
         docTitle: "All Products",
         path: "/products",
         formatCurrency: formatCurrency,
+        isAuth: isAuth,
       });
     })
     .catch((err) => console.log(err));
 };
 
 exports.getProductId = (req, res) => {
+  const cookieString = req.get("Cookie");
+  const isAuth = cookieString.split("=")[1];
   const prodId = req.params.id;
   Product.findById(prodId)
     .then((product) => {
@@ -25,12 +30,15 @@ exports.getProductId = (req, res) => {
         docTitle: product.title,
         path: "/products",
         formatCurrency: formatCurrency,
+        isAuth: isAuth,
       });
     })
     .catch((err) => console.log(err));
 };
 
 exports.getIndex = (req, res) => {
+  const cookieString = req.get("Cookie");
+  const isAuth = cookieString.split("=")[1];
   Product.find()
     .then((products) => {
       res.render("shop/index", {
@@ -38,12 +46,15 @@ exports.getIndex = (req, res) => {
         docTitle: "Home Shop",
         path: "/",
         formatCurrency: formatCurrency,
+        isAuth: isAuth,
       });
     })
     .catch((err) => console.log(err));
 };
 
 exports.getCart = (req, res, next) => {
+  const cookieString = req.get("Cookie");
+  const isAuth = cookieString.split("=")[1];
   req.user
     .populate("cart.items.productId")
     .then((user) => {
@@ -54,6 +65,7 @@ exports.getCart = (req, res, next) => {
         pageTitle: "Your Cart",
         products: products,
         path: "/cart",
+        isAuth: isAuth,
       });
     })
     .catch((err) => console.log(err));
@@ -83,9 +95,12 @@ exports.postCartDeleteProduct = (req, res) => {
 };
 
 exports.getCheckOut = (req, res) => {
+  const cookieString = req.get("Cookie");
+  const isAuth = cookieString.split("=")[1];
   res.render("shop/checkout", {
     path: "/checkout",
     docTitle: "Checkout",
+    isAuth: isAuth,
   });
 };
 
@@ -115,6 +130,8 @@ exports.postOrder = (req, res) => {
 };
 
 exports.getOrders = (req, res) => {
+  const cookieString = req.get("Cookie");
+  const isAuth = cookieString.split("=")[1];
   Order.find({ "user.userId": req.user._id })
     .then((orders) => {
       console.log(orders);
@@ -122,6 +139,7 @@ exports.getOrders = (req, res) => {
         orders: orders,
         docTitle: "Your Orders",
         path: "/orders",
+        isAuth: isAuth,
       });
     })
     .catch((err) => {

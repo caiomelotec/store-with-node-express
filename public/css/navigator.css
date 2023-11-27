@@ -1,4 +1,11 @@
 nav {
   display: flex;
   justify-content: space-between;
+  color: white;
+}
+
+* {
+  text-decoration: none;
+  list-style: none;
+  color: inherit;
 }
