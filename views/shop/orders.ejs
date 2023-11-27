@@ -3,7 +3,7 @@
 <body>
 <%- include('../includes/navigation.ejs') %>
 <main>
-  <% if (orders.length === 0) { %>
+  <% if (!orders || orders.length === 0) { %>
     <h1 style="color: white; margin: 1rem">Nothing there😰</h1>
   <% } else { %>
     <div class="orders-wrapper-container">
