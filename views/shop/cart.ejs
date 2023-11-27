@@ -3,7 +3,7 @@
 <body>
   <%- include('../includes/navigation.ejs') %>
   <main>
-    <% if(products.length > 0) { %>
+    <% if(!products || products.length > 0) { %>
       <div class="cart-info-container">
       
           <% products.forEach(prod => { %>
