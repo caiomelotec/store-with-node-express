@@ -50,6 +50,13 @@
         </form>
       </li>
       <% } %>
+      <% if (!isAuth) { %>
+        <li>
+          <a class="<%= path === '/signup' ? 'active' : '' %>" href="/signup"
+            >Signup</a
+          >
+        </li>
+        <% } %>
     </ul>
   </nav>
 </header>
