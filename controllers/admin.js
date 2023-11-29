@@ -2,14 +2,16 @@ const Product = require("../models/product");
 const formatCurrency = require("../util/formatCurrency");
 
 exports.getAddProduct = (req, res, next) => {
-  // const cookieString = req.get("Cookie");
-  // const isAuth = cookieString?.split("=")[1];
-  res.render("admin/edit-product", {
-    docTitle: "Home Shop",
-    path: "/admin/add-product",
-    editing: false,
-    isAuth: req.session.isAuth,
-  });
+  if (req.session.isAuth) {
+    return res.render("admin/edit-product", {
+      docTitle: "Home Shop",
+      path: "/admin/add-product",
+      editing: false,
+      isAuth: req.session.isAuth,
+    });
+  } else {
+    return res.redirect("/login");
+  }
 };
 
 exports.addAnewProducts = (req, res, next) => {
@@ -37,8 +39,6 @@ exports.addAnewProducts = (req, res, next) => {
 };
 
 exports.getEditProduct = (req, res, next) => {
-  // const cookieString = req.get("Cookie");
-  // const isAuth = cookieString?.split("=")[1];
   const editMode = req.query.edit;
   const prodId = req.params.id;
 
@@ -86,8 +86,6 @@ exports.postEditProduct = (req, res) => {
 };
 
 exports.getProducts = (req, res) => {
-  // const cookieString = req.get("Cookie");
-  // const isAuth = cookieString?.split("=")[1];
   Product.find()
     .then((products) => {
       res.render("admin/products", {
@@ -98,7 +96,9 @@ exports.getProducts = (req, res) => {
         isAuth: req.session.isAuth,
       });
     })
-    .catch();
+    .catch((err) => {
+      console.log(err);
+    });
 };
 
 exports.postDeleteProduct = (req, res) => {
