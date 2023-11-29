@@ -6,6 +6,7 @@ const MongoDBStore = require("connect-mongodb-session")(session);
 const mongoose = require("mongoose");
 const User = require("./models/user");
 require("dotenv").config();
+const csrf = require("csurf");
 
 const app = express();
 
@@ -16,6 +17,12 @@ const store = new MongoDBStore({
   expires: 12 * 60 * 60 * 1000, // 12h in milliseconds
 });
 
+// Parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }));
+
+// Access to the public folder
+app.use(express.static(path.join(__dirname, "public")));
+
 // Use session middleware
 app.use(
   session({
@@ -25,6 +32,10 @@ app.use(
     store: store,
   })
 );
+
+// CSRF protection middleware
+const csrfProtection = csrf();
+app.use(csrfProtection);
 
 // Custom middleware to load user from session
 app.use((req, res, next) => {
@@ -47,11 +58,11 @@ app.use((req, res, next) => {
 app.set("view engine", "ejs");
 app.set("views", "views");
 
-// Parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }));
-
-// Access to the public folder
-app.use(express.static(path.join(__dirname, "public")));
+// Make csrfToken available globally
+app.use((req, res, next) => {
+  res.locals.csrfToken = req.csrfToken();
+  next();
+});
 
 // Routes
 const adminRoutes = require("./routes/admin");
@@ -69,12 +80,6 @@ mongoose
     `mongodb+srv://caiomelo:${process.env.PASSWORD}@caiocluster.infg9q7.mongodb.net/shop`
   )
   .then(() => {
-    // const user = new User({
-    //   username: "caio-admin",
-    //   email: "admincaio@gmail.com",
-    //   cart: { items: [] },
-    // });
-    // user.save();
     app.listen(3000, () => {
       console.log("Server is running on port 3000");
     });

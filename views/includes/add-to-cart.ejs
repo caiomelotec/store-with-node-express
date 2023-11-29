@@ -4,6 +4,7 @@
   method="post"
   style="display: flex"
 >
+  <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
   <button class="btn" type="submit">Add to Cart</button>
   <input type="hidden" name="productId" value="<%= product._id %>" />
 </form>

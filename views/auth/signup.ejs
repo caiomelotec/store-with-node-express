@@ -7,6 +7,10 @@
   
 <main class="main-login-wrapper">
   <form class="login-form" action="/signup" method="POST">
+    <div class="form-control">
+      <label for="username">Username</label>
+      <input type="username" name="username" id="username">
+  </div>
       <div class="form-control">
           <label for="email">E-Mail</label>
           <input type="email" name="email" id="email">
@@ -17,7 +21,7 @@
       </div>
       <div class="form-control">
         <label for="password">Confirm Password</label>
-        <input type="password" name="password" id="password">
+        <input type="password" name="confirmPassword" id="password">
     </div>
       <button class="btn" type="submit">Create Account</button>
   </form>

@@ -5,7 +5,7 @@
   <main>
     <div class="div-form-title-input">
       <form action="/admin/<% if (editing) { %>edit-product<% } else { %>add-product<% } %>" method="POST">
-
+        
         <label class="label-input-title" for="title">Title :</label>
         <input class="product-input" type="text" name="title" 
         value="<% if(editing) { %> <%=product.title%> <% } %>" required/>
@@ -25,7 +25,7 @@
         <% if (editing) {%>
           <input type="hidden" value="<%= product._id %>" name="id">
         <%} %>
-
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
         <button style="display: block;" class="add-product-btn" type="submit">
           <% if (editing) { %>
             Update Product
