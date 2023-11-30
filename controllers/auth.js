@@ -8,8 +8,7 @@ exports.getLogin = (req, res) => {
     res.render("auth/login", {
       path: "/login",
       docTitle: "Login",
-      isAuth: req.session.isAuth,
-      csrfToken: req.csrfToken(),
+      errorMessage: req.flash("error"),
     });
   }
 };
@@ -20,6 +19,7 @@ exports.postLogin = (req, res) => {
 
   User.findOne({ email: email }).then((user) => {
     if (!user) {
+      req.flash("error", "Invalid email");
       return res.redirect("/login");
     }
 
@@ -28,12 +28,14 @@ exports.postLogin = (req, res) => {
       .then((doMatch) => {
         const { password, ...otherInfo } = user.toObject();
         if (doMatch) {
-          req.session.isAuth = true; // Assuming isAuth is a boolean flag
+          req.session.isAuth = true;
           req.session.user = otherInfo;
           return req.session.save(() => {
             res.redirect("/");
           });
         }
+        req.flash("error", "Invalid password");
+        res.redirect("/login");
       })
       .catch((err) => {
         console.error(err);
@@ -45,7 +47,7 @@ exports.getSignup = (req, res) => {
   res.render("auth/signup", {
     path: "/signup",
     docTitle: "Sign up",
-    isAuth: req.session.isAuth,
+    errorMessage: req.flash("error"),
   });
 };
 
@@ -58,7 +60,8 @@ exports.postSignup = (req, res) => {
   User.findOne({ email: email })
     .then((userDoc) => {
       if (userDoc) {
-        return res.status(400).json({ error: "Email is already registered" });
+        req.flash("error", "Email is already registered");
+        return res.redirect("/signup");
       }
       return bcrypt
         .hash(password, 12)

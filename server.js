@@ -7,7 +7,7 @@ const mongoose = require("mongoose");
 const User = require("./models/user");
 require("dotenv").config();
 const csrf = require("csurf");
-
+const flash = require("connect-flash");
 const app = express();
 
 // Set up session store
@@ -36,7 +36,8 @@ app.use(
 // CSRF protection middleware
 const csrfProtection = csrf();
 app.use(csrfProtection);
-
+// flash
+app.use(flash());
 // Custom middleware to load user from session
 app.use((req, res, next) => {
   if (!req.session.user) {
@@ -61,6 +62,7 @@ app.set("views", "views");
 // Make csrfToken available globally
 app.use((req, res, next) => {
   res.locals.csrfToken = req.csrfToken();
+  res.locals.isAuth = req.session.isAuth;
   next();
 });
 

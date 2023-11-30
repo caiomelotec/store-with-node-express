@@ -6,7 +6,11 @@
  
   
 <main class="main-login-wrapper">
+  <% if(errorMessage.length > 0) { %>
+    <div style="background-color: white; color: red; padding: 5px; border-radius: 6px;"><%= errorMessage %></div>
+    <% } %>
   <form class="login-form" action="/signup" method="POST">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
     <div class="form-control">
       <label for="username">Username</label>
       <input type="username" name="username" id="username">
