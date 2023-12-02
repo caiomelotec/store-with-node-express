@@ -2,6 +2,7 @@ const User = require("../models/user");
 const bcrypt = require("bcryptjs");
 const crypto = require("crypto");
 const sendEmail = require("../util/email");
+const { validationResult } = require("express-validator");
 
 exports.getLogin = (req, res) => {
   if (req.session.isAuth) {
@@ -57,28 +58,29 @@ exports.postSignup = (req, res) => {
   const username = req.body.username;
   const email = req.body.email;
   const password = req.body.password;
-  const confirmPassword = req.body.confirmPassword;
 
-  User.findOne({ email: email })
-    .then((userDoc) => {
-      if (userDoc) {
-        req.flash("error", "Email is already registered");
-        return res.redirect("/signup");
-      }
-      return bcrypt
-        .hash(password, 12)
-        .then((hashedPass) => {
-          const user = new User({
-            username: username,
-            email: email,
-            password: hashedPass,
-            cart: { items: [] },
-          });
-          return user.save();
-        })
-        .then(() => {
-          return res.redirect("/login");
-        });
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).render("auth/signup", {
+      path: "/signup",
+      docTitle: "Sign up",
+      errorMessage: errors.array()[0].msg,
+    });
+  }
+
+  bcrypt
+    .hash(password, 12)
+    .then((hashedPass) => {
+      const user = new User({
+        username: username,
+        email: email,
+        password: hashedPass,
+        cart: { items: [] },
+      });
+      return user.save();
+    })
+    .then(() => {
+      return res.redirect("/login");
     })
     .catch((err) => {
       console.log(err);
