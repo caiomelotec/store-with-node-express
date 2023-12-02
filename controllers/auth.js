@@ -12,6 +12,11 @@ exports.getLogin = (req, res) => {
       path: "/login",
       docTitle: "Login",
       errorMessage: req.flash("error"),
+      oldInput: {
+        password: "",
+        email: "",
+      },
+      validationErrors: [],
     });
   }
 };
@@ -20,12 +25,22 @@ exports.postLogin = (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
 
-  User.findOne({ email: email }).then((user) => {
-    if (!user) {
-      req.flash("error", "Invalid email");
-      return res.redirect("/login");
-    }
+  const errors = validationResult(req);
 
+  if (!errors.isEmpty()) {
+    return res.status(422).render("auth/login", {
+      path: "/login",
+      docTitle: "Login",
+      errorMessage: errors.array()[0].msg,
+      oldInput: {
+        email: email,
+        password: password,
+      },
+      validationErrors: errors.array(),
+    });
+  }
+
+  User.findOne({ email: email }).then((user) => {
     bcrypt
       .compare(password, user.password)
       .then((doMatch) => {
