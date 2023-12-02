@@ -34,7 +34,7 @@ exports.addAnewProducts = (req, res, next) => {
       res.redirect("/admin/add-product");
     })
     .catch((err) => {
-      console.log(err);
+      throw new Error("Creating a new product fail", err);
     });
 };
 
@@ -59,7 +59,9 @@ exports.getEditProduct = (req, res, next) => {
         isAuth: req.session.isAuth,
       });
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      throw new Error("Get editing product fail", err);
+    });
 };
 
 exports.postEditProduct = (req, res) => {
@@ -85,7 +87,7 @@ exports.postEditProduct = (req, res) => {
       });
     })
     .catch((err) => {
-      console.log(err);
+      throw new Error("Editing a product fail", err);
     });
 };
 
@@ -101,7 +103,7 @@ exports.getProducts = (req, res) => {
       });
     })
     .catch((err) => {
-      console.log(err);
+      throw new Error("Get products fail", err);
     });
 };
 
@@ -112,7 +114,6 @@ exports.postDeleteProduct = (req, res) => {
       res.redirect("/admin/products");
     })
     .catch((err) => {
-      console.error(err);
-      res.status(500).send("Internal Server Error");
+      throw new Error("Deleting a product fail", err);
     });
 };
