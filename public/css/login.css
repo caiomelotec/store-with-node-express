@@ -28,3 +28,6 @@
   margin-bottom: 4px;
   font-size: 18px;
 }
+.form-control input.invalid {
+  border-color: red;
+}
