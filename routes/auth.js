@@ -10,7 +10,7 @@ router.post(
 
   body("email")
     .isEmail()
-    .n.withMessage("Please enter a valid email address")
+    .withMessage("Please enter a valid email address")
     .custom((value, { req }) => {
       return User.findOne({ email: value }).then((user) => {
         if (!user) {
@@ -37,7 +37,7 @@ router.post(
         });
       })
       .normalizeEmail(),
-    ,
+
     check("password", "Please enter a password with at least 6 characters")
       .isLength({
         min: 6,
