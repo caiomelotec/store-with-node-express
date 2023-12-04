@@ -9,12 +9,13 @@
     <div class="orders-wrapper-container">
       <% orders.forEach(ord => { %>
         <div class="orders-container">
-          <h4>Order Number: <%= ord._id %></h4>
+          <h4 style="color: white;">Order ID: <%= ord._id %></h4>
+          <a style="color: white; margin: 6px 0;" class="invoice-link" href="/orders/<%= ord._id %>">Download Invoice</a>
             <% ord.products.forEach(item => { %>
           <div class="oder-info-div">
               <span>Title: <%= item.title %></span>
               <span>Quantity: <%= item.quantity %></span>
-              <a class="invoice-link" href="/orders/<%= ord._id %>">Download Invoice</a>
+              
           </div>
             <% }) %>
         </div>
