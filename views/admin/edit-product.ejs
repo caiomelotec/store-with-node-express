@@ -4,7 +4,7 @@
   <%- include('../includes/navigation.ejs') %>
   <main>
     <div class="div-form-title-input">
-      <form action="/admin/<% if (editing) { %>edit-product<% } else { %>add-product<% } %>" method="POST">
+      <form action="/admin/<% if (editing) { %>edit-product<% } else { %>add-product<% } %>" method="POST" enctype="multipart/form-data">
         
         <label class="label-input-title" for="title">Title :</label>
         <input class="product-input" type="text" name="title" 
@@ -15,9 +15,17 @@
         value="<% if (editing) { %><%= product.price %><% } %>" required/>
       
 
-        <label class="label-input-title" for="imgUrl">Image URL:</label>
+        <!-- <label class="label-input-title" for="imgUrl">Image URL:</label>
         <input class="product-input" type="text" name="imgUrl" id="imgUrl"
-        value="<% if(editing) { %> <%=product.imgUrl%> <% } %>" required/>
+        value="<% if(editing) { %> <%=product.imgUrl%> <% } %>" required/> -->
+
+        
+        <label class="label-input-title" for="img">Image</label>
+        <input class="product-input"
+         type="file"
+          name="img"
+           id="img"
+        />
 
         <label class="label-input-title"  for="description">Description :</label>
         <textarea style="display: block;" class="" maxlength="250" rows="4" cols="54"  type="text" name="description"><% if(editing) { %> <%= product.description %> <% } %></textarea>

@@ -9,6 +9,7 @@ require("dotenv").config();
 const csrf = require("csurf");
 const flash = require("connect-flash");
 const app = express();
+const multer = require("multer");
 
 // Set up session store
 const store = new MongoDBStore({
@@ -16,12 +17,32 @@ const store = new MongoDBStore({
   collection: "sessions",
   expires: 12 * 60 * 60 * 1000, // 12h in milliseconds
 });
-
+const fileStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "images");
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + file.originalname);
+  },
+});
+const fileFilter = (req, file, cb) => {
+  if (
+    file.mimetype === "image/png" ||
+    file.mimetype === "image/jpg" ||
+    file.mimetype === "image/jpeg"
+  ) {
+    cb(null, true);
+  } else {
+    cb(null, false);
+  }
+};
 // Parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
-
+// multer
+app.use(multer({ storage: fileStorage, fileFilter }).single("img"));
 // Access to the public folder
 app.use(express.static(path.join(__dirname, "public")));
+app.use("/images", express.static(path.join(__dirname, "images")));
 
 // Use session middleware
 app.use(

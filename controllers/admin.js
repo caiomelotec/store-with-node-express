@@ -18,7 +18,13 @@ exports.addAnewProducts = (req, res, next) => {
   const title = req.body.title;
   const price = req.body.price;
   const description = req.body.description;
-  const imgUrl = req.body.imgUrl;
+  const img = req.file;
+  if (!img) {
+    throw new Error("Error by uploading img");
+  }
+
+  const imgUrl = img.path;
+
   const product = new Product({
     title: title,
     price: price,
@@ -68,9 +74,10 @@ exports.postEditProduct = (req, res) => {
   const prodId = req.body.id;
   const updatedTitle = req.body.title;
   const updatedPrice = req.body.price;
-  const updatedImgURL = req.body.imgUrl;
   const updateDescription = req.body.description;
-  console.log(req.session.user._id.toString());
+  const img = req.file;
+  const updatedImgURL = img?.path;
+
   Product.findById(prodId)
     .then((product) => {
       console.log("product.userid:", product.userId.toString());
@@ -80,7 +87,9 @@ exports.postEditProduct = (req, res) => {
       product.title = updatedTitle;
       product.description = updateDescription;
       product.price = updatedPrice;
-      product.imgUrl = updatedImgURL;
+      if (img) {
+        product.imgUrl = updatedImgURL;
+      }
       return product.save().then(() => {
         console.log("success, updating product");
         res.redirect("/admin/products");
