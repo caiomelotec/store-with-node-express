@@ -1,5 +1,6 @@
 const Product = require("../models/product");
 const formatCurrency = require("../util/formatCurrency");
+const fileHelper = require("../util/file");
 
 exports.getAddProduct = (req, res, next) => {
   if (req.session.isAuth) {
@@ -88,6 +89,7 @@ exports.postEditProduct = (req, res) => {
       product.description = updateDescription;
       product.price = updatedPrice;
       if (img) {
+        fileHelper.deleteFile(product.imgUrl);
         product.imgUrl = updatedImgURL;
       }
       return product.save().then(() => {
@@ -118,7 +120,14 @@ exports.getProducts = (req, res) => {
 
 exports.postDeleteProduct = (req, res) => {
   const prodId = req.body.productId;
-  Product.deleteOne({ _id: prodId, userId: req.session.user._id })
+  Product.findById(prodId)
+    .then((product) => {
+      if (!product) {
+        next(new Error("Product not found"));
+      }
+      fileHelper.deleteFile(product.imgUrl);
+      return Product.deleteOne({ _id: prodId, userId: req.session.user._id });
+    })
     .then(() => {
       res.redirect("/admin/products");
     })
