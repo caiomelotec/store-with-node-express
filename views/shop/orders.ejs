@@ -14,6 +14,7 @@
           <div class="oder-info-div">
               <span>Title: <%= item.title %></span>
               <span>Quantity: <%= item.quantity %></span>
+              <a class="invoice-link" href="/orders/<%= ord._id %>">Download Invoice</a>
           </div>
             <% }) %>
         </div>

@@ -27,3 +27,16 @@
   flex-direction: column;
   gap: 5px;
 }
+
+.invoice-link {
+  border: none;
+  padding: 5px 10px;
+  border-radius: 8px;
+  background-color: rgb(0, 0, 38);
+  width: 140px;
+  text-align: center;
+  transition: 0.2s;
+}
+.invoice-link:hover {
+  background-color: rgb(24, 24, 99);
+}
