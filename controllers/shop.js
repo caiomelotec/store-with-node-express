@@ -5,7 +5,8 @@ const fs = require("fs");
 const path = require("path");
 const Order = require("../models/order");
 const formatCurrency = require("../util/formatCurrency");
-const product = require("../models/product");
+
+const ITEMS_PER_PAGE = 3;
 
 exports.getProducts = (req, res) => {
   Product.find()
@@ -37,12 +38,27 @@ exports.getProductId = (req, res) => {
 };
 
 exports.getIndex = (req, res) => {
+  const page = req.query.page;
+  let totalItems;
   Product.find()
+    .countDocuments()
+    .then((numOfProducts) => {
+      totalItems = numOfProducts;
+      return Product.find()
+        .skip((page - 1) * ITEMS_PER_PAGE)
+        .limit(ITEMS_PER_PAGE);
+    })
     .then((products) => {
       res.render("shop/index", {
         prods: products,
         docTitle: "Home Shop",
         path: "/",
+        totalProducts: totalItems,
+        hasNextPage: ITEMS_PER_PAGE * page < totalItems,
+        hasPreviousPage: page > 1,
+        nextPage: page + 1,
+        previousPage: page - 1,
+        lastpage: Math.ceil(totalItems / ITEMS_PER_PAGE),
         formatCurrency: formatCurrency,
         isAuth: req.session.isAuth,
       });

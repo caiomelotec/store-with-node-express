@@ -99,7 +99,7 @@ main h1 {
   transition: 0.2s;
 }
 
-.details-btn:hover, 
+.details-btn:hover,
 .btn:hover,
 .btn:active {
   background-color: rgb(28, 28, 28);
@@ -109,4 +109,19 @@ main h1 {
 .active-product,
 .active {
   color: gray;
+}
+.pagination {
+  margin-top: 4rem;
+  text-align: center;
+}
+.pagination a {
+  color: white;
+  padding: 0.5rem;
+  border: solid 2px lightgray;
+  margin: 0 0.4rem;
+  transition: 0.15s;
+}
+.pagination a:active,
+.pagination a:hover {
+  background-color: black;
 }
