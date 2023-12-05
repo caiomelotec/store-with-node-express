@@ -121,6 +121,7 @@ main h1 {
   margin: 0 0.4rem;
   transition: 0.15s;
 }
+.activepage,
 .pagination a:active,
 .pagination a:hover {
   background-color: black;
