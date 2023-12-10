@@ -1,0 +1,16 @@
+<%- include('../includes/head.ejs') %>
+</head>
+<body>
+  <%- include('../includes/navigation.ejs') %>
+  <main>
+    <% products.forEach(prod => { %>
+      <div class="product-cart-info-li" style="color: white; padding: 14px;">
+        <h3 class="cart-item-title"><%= prod.productId.title %></h3>
+        <h3 class="quantity-cart">quantity: <%= prod.quantity %></h3>
+      </div>
+    <% }) %>
+    <div style="display: flex; justify-content: center; text-align: center; color: white;"><h2>
+      Total: <%= formatCurrency(totalSum) %>
+    </h2></div>  
+  </main>
+  <%- include('../includes/end.ejs') %>

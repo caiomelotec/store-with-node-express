@@ -9,9 +9,11 @@ router.get("/products/:id", shopController.getProductId);
 router.get("/cart", isAuth, shopController.getCart);
 router.post("/cart", isAuth, shopController.postCart);
 router.post("/cart-delete-item", isAuth, shopController.postCartDeleteProduct);
+// checkout
+router.get("/checkout", isAuth, shopController.getCheckOut);
+
 router.post("/create-order", isAuth, shopController.postOrder);
 router.get("/orders", isAuth, shopController.getOrders);
-router.get("/checkout", isAuth, shopController.getCheckOut);
 router.get("/orders/:orderId", isAuth, shopController.getInvoice);
 
 module.exports = router;

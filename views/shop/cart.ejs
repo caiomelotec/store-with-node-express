@@ -18,11 +18,13 @@
             </div>
           <% }) %>        
       </div>
-
-    <form action="/create-order" method="post" class="checkout-cart-form">
+      <div class="checkout-cart-form">
+        <a href="/checkout" class="btn">Order Now!</a>
+      </div>
+  <!-- <form action="/create-order" method="post" class="checkout-cart-form">
       <input type="hidden" name="_csrf" value="<%= csrfToken %>">
       <button type="submit" class="btn">CHECKOUT</button>
-    </form>
+    </form> -->
     <% } else { %>
     <h1>No Products In Cart</h1>
     <% } %>

@@ -82,15 +82,6 @@ exports.getIndex = (req, res) => {
 };
 
 exports.getCart = (req, res, next) => {
-  if (!req.session.user) {
-    return res.render("shop/cart", {
-      docTitle: "Shopping Cart",
-      path: "/cart",
-      products: [],
-      path: "/cart",
-      isAuth: req.session.isAuth,
-    });
-  }
   req.user
     .populate("cart.items.productId")
     .then((user) => {
@@ -137,11 +128,24 @@ exports.postCartDeleteProduct = (req, res) => {
 };
 
 exports.getCheckOut = (req, res) => {
-  res.render("shop/checkout", {
-    path: "/checkout",
-    docTitle: "Checkout",
-    isAuth: req.session.isAuth,
-  });
+  req.user
+    .populate("cart.items.productId")
+    .then((user) => {
+      let total = 0;
+      const products = user.cart.items || [];
+      products.forEach((p) => {
+        total += p.quantity * p.productId.price;
+      });
+      res.render("shop/checkout", {
+        docTitle: "Checkout",
+        path: "/checkout",
+        products: products,
+        totalSum: total,
+        isAuth: req.session.isAuth,
+        formatCurrency: formatCurrency,
+      });
+    })
+    .catch((err) => console.log(err));
 };
 
 exports.postOrder = (req, res) => {
