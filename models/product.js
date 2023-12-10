@@ -19,6 +19,9 @@ const productSchema = new Schema({
     type: String,
     require: true,
   },
+  priceStripe: {
+    type: String,
+  },
   userId: {
     type: Schema.Types.ObjectId,
     ref: "User",

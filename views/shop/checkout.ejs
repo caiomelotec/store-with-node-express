@@ -11,6 +11,21 @@
     <% }) %>
     <div style="display: flex; justify-content: center; text-align: center; color: white;"><h2>
       Total: <%= formatCurrency(totalSum) %>
-    </h2></div>  
+    </h2></div>
+    <div style="display: flex; justify-content: center; text-align: center; color: white; margin-top: 1rem;">
+      <button class="btn" id="order-now-btn">ORDER</button>
+      <script src="https://js.stripe.com/v3/"></script>
+      <script>
+        var stripe = Stripe('pk_test_51OLdRQKRGFlFTw91369ITz3cLpJi8k8zxgprVJdp7qjCEt8RhB3wphyqdDIpMnfGkrW61aEXXI5FU41wnHRPi5fG00JB0AhjXa')
+    
+        var orderBTN = document.getElementById('order-now-btn')
+    
+        orderBTN.addEventListener('click', () => {
+            stripe.redirectToCheckout({
+                sessionId: '<%= sessionId %>'
+            })
+        })
+    </script>    
+    </div>  
   </main>
   <%- include('../includes/end.ejs') %>
